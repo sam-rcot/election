@@ -1,5 +1,5 @@
 import { useState, useRef, RefObject } from 'react';
-import './App.css';
+import './App.scss';
 
 function App() {
     const [mpName, setMpName] = useState('');
@@ -38,10 +38,11 @@ I’d be delighted to host you at our occupational therapy service ${yourService
 
     return (
         <>
+            <p id='infotext'>Please fill out your information then press the send email button at the bottom of the page.</p>
             <div className="inputs">
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
-                        <label htmlFor="mpName">Name of candidate:</label>
+                        <label htmlFor="mpName">Candidate's name:</label>
                         <input
                             type="text"
                             id="mpName"
@@ -77,7 +78,7 @@ I’d be delighted to host you at our occupational therapy service ${yourService
                         />
                     </div>
                     <div className="input-group">
-                        <label htmlFor="yourAddress">Your address:</label>
+                        <label htmlFor="yourAddress">Your address (including postcode):</label>
                         <input
                             type="text"
                             id="yourAddress"
@@ -114,10 +115,11 @@ I’d be delighted to host you at our occupational therapy service ${yourService
                             checked={isOptionalChecked}
                             onChange={(e) => setIsOptionalChecked(e.target.checked)}
                         />
+                        <span className="checkbox" onClick={() => setIsOptionalChecked(!isOptionalChecked)}></span>
                     </div>
+
                 </form>
             </div>
-            <a href={`mailto:${mpEmail}?subject=Occupational%20therapy&body=${getEmailBody()}`} className="email-button">Send email</a>
             <p className="email" ref={emailRef}>
                 Dear {mpName},<br/><br/>
                 I’m an occupational therapist in {yourConst} and I’m reaching out to highlight why
@@ -125,24 +127,29 @@ I’d be delighted to host you at our occupational therapy service ${yourService
                 this further.<br/><br/>
                 Occupational therapy helps people to do the things they want and have to do. That could mean helping
                 overcome challenges learning at school, going to work, playing sport or simply doing the dishes.
-                Occupations are essential to living. They give our lives meaning, purpose and structure.<br /><br />
+                Occupations are essential to living. They give our lives meaning, purpose and structure.<br/><br/>
                 With the upcoming general election, I believe prioritising occupational therapy services will greatly
                 benefit residents across our constituency. Occupational therapy is a solution to many of the UK's health
-                and care challenges – it helps relieve pressure on acute services and helps people to get in to work.<br /><br />
+                and care challenges – it helps relieve pressure on acute services and helps people to get in to
+                work.<br/><br/>
                 We're facing a shortage of occupational therapists, and without support, we risk failing to meet our
                 population's needs. We need to integrate occupational therapy into community settings, including in GP
-                surgeries and schools, to provide help at the right time.<br /><br />
+                surgeries and schools, to provide help at the right time.<br/><br/>
                 I have attached a copy of a briefing from the Royal College of Occupational Therapists with more
-                information and recommendations for the next government for you to consider.<br /><br />
+                information and recommendations for the next government for you to consider.<br/><br/>
                 {isOptionalChecked && formattedText}
                 Thank you for taking the time to consider this. Your support for occupational therapy if you are elected
-                to parliament would make a significant difference.<br /><br />
-                I look forward to hearing from you.<br /><br />
-                Best wishes<br /><br />
-                {yourName}<br />
-                {yourAddress}<br />
-                {yourEmail}<br />
+                to parliament would make a significant difference.<br/><br/>
+                I look forward to hearing from you.<br/><br/>
+                Best wishes<br/><br/>
+                {yourName}<br/>
+                {yourAddress}<br/>
+                {yourEmail}<br/>
             </p>
+            <div className="fakeButton"><a
+                href={`mailto:${mpEmail}?subject=Occupational%20therapy&body=${getEmailBody()}`}
+                className="email-button">Send email</a></div>
+
         </>
     );
 }
