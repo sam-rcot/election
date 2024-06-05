@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, RefObject } from 'react';
 import './App.css';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
     const [yourAddress, setYourAddress] = useState('');
     const [isOptionalChecked, setIsOptionalChecked] = useState(false);
 
-    const emailRef = useRef(null);
+    const emailRef: RefObject<HTMLParagraphElement> = useRef<HTMLParagraphElement>(null);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
