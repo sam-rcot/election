@@ -7,23 +7,34 @@
   padding: 2rem;
   padding-top: 0rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+
 
   #infotext {
     font-weight: 400;
     text-align: left;
   }
 
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: fit-content;
+    margin: 10px auto;
+  }
+
   .info {
     opacity: 0;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.25s ease-in-out;
     font-family: "Nunito Sans", sans-serif;
     font-weight: bold;
     color: $color-purple;
-    margin-top: 2rem;
-  }
+    //margin-top: 1rem;
 
-  .info.visible {
-    opacity: 1;
+    &.visible {
+      opacity: 1;
+    }
   }
 
   .email {
@@ -32,13 +43,11 @@
     padding: 20px;
     border-radius: 5px;
     width: 60vw;
-    margin: 10px auto;
+    align-self: center;
     user-select: all;
-    margin-bottom: 35px;
   }
 
   .fakeButton {
-    margin: 10px;
     background-color: var(--color-teal);
     width: fit-content;
     height: fit-content;
@@ -62,29 +71,36 @@
     }
   }
 
-  .sendEmail {
-    margin: 10px;
-  }
 
   .inputs {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 
     .input-group {
       display: flex;
       flex-direction: column;
       align-items: start;
-      margin-bottom: 10px; /* Optional: space between input groups */
+      margin-bottom: 10px;
+      width: 100%;
+
 
       label {
+        align-self: flex-start;
         text-align: left;
         font-family: 'Nunito Sans', sans-serif;
         color: var(--color-purple);
+
+        #candidateWarning {
+          display: block;
+        }
       }
 
       input {
         display: block;
         width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
         padding: .375rem .75rem;
         font-size: 1rem;
         font-weight: 400;
@@ -94,7 +110,6 @@
         background-clip: padding-box;
         border: 1.5px solid rgba(0, 54, 67, 0.5);
         border-radius: 0;
-
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
         &:focus {
@@ -110,7 +125,7 @@
       flex-direction: row-reverse;
       justify-content: space-between;
       align-items: center;
-      width: 100%; /* Ensure the checkbox group takes full width */
+      width: 100%;
 
       label {
         text-align: left;
@@ -132,6 +147,65 @@
   #root {
     .email {
       width: 70vw;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  #root {
+    .buttonContainer {
+      flex-direction: column;
+    }
+
+    .inputs {
+      .input-group {
+        input {
+          width: 100%;
+        }
+      }
+
+      .checkbox-group {
+        flex-direction: column;
+        align-items: flex-start;
+
+        label {
+          margin-left: 0;
+        }
+
+        input[type="checkbox"] {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  #root {
+    padding: 0.5rem;
+
+    #infotext {
+      padding-left: 1rem;
+      width: 90%;
+    }
+
+    .inputs {
+      .input-group {
+        input {
+          width: 100%;
+        }
+        label {
+          #candidateWarning {
+            display: inline;
+          }
+        }
+      }
+    }
+
+    .email {
+      width: 90vw;
+      padding: .75rem .5rem;
+      //margin: 0 auto;
     }
   }
 }

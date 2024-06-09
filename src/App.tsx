@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, RefObject } from 'react';
+import {useState, useRef, useEffect, RefObject} from 'react';
 import './App.scss';
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
     const formattedText = (text: string) => text.split('\n').map((line, index) => (
         <span key={index}>
             {line}
-            <br />
+            <br/>
         </span>
     ));
 
@@ -70,7 +70,8 @@ function App() {
                     page.
                 </li>
                 <li>The text will update automatically as you type.</li>
-                <li>Once you've pressed the send email button – an email should open up.  If this doesn't work, please copy and paste the text instead or press copy email text.
+                <li>Once you've pressed the send email button – an email should open up. If this doesn't work, please
+                    copy and paste the text instead or press copy email text.
                 </li>
                 <li>The text can be selected by clicking anywhere inside the email copy.</li>
                 <li>We recommend you maximise your chances of being heard by reaching out to multiple candidates.</li>
@@ -146,8 +147,9 @@ function App() {
                     )}
 
                     <div className="input-group checkbox-group">
-                        <label htmlFor="optionalService">Do you want to invite your candidate to see your local occupational
-                            therapy service?<br/> <strong>Please clear this with your service's comms department before
+                        <label htmlFor="optionalService">Do you want to invite your candidate to see your local
+                            occupational
+                            therapy service? <strong id="candidateWarning">Please clear this with your service's comms department before
                                 inviting a candidate.</strong></label>
                         <input
                             type="checkbox"
@@ -182,7 +184,9 @@ function App() {
                 We're facing a shortage of occupational therapists, and without support, we risk failing to meet our
                 population's needs. We need to integrate occupational therapy into community settings, including in GP
                 surgeries and schools, to provide help at the right time.<br/><br/>
-                I have provided a link to a <a href="https://www.rcot.co.uk/news/rcot-general-election-briefing" target='_blank'>briefing from the Royal College of Occupational Therapists</a> with more
+                I have provided a link to a <a href="https://www.rcot.co.uk/news/rcot-general-election-briefing"
+                                               target='_blank'>briefing from the Royal College of Occupational
+                Therapists</a> with more
                 information and recommendations for the next government for you to consider.<br/><br/>
                 {isOptionalServiceChecked && formattedText(optionalService)}
                 {isOptionalMeetingChecked && formattedText(optionalMeeting)}
@@ -194,20 +198,23 @@ function App() {
                 <strong>{yourAddress || placeholder}</strong><br/>
                 <strong>{yourEmail || placeholder}</strong><br/>
             </p>
-            <a
+            <div className="buttonContainer"><a
                 className="fakeButton sendEmail"
                 href={`mailto:${mpEmail}?subject=Occupational%20therapy&body=${getEmailBody()}`}
                 onClick={() => setIsEmailSent(true)}
             >
                 Open email app
             </a>
-            <button
-                className="fakeButton"
-                onClick={copyToClipboard}
-            >
-                Copy email text
-            </button>
-            <p className={`info ${isEmailSent ? 'visible' : ''}`}>We recommend you maximise your chances of being heard by reaching out to multiple candidates.</p><br/>
+                <button
+                    className="fakeButton"
+                    onClick={copyToClipboard}
+                >
+                    Copy email text
+                </button>
+            </div>
+
+            <p className={`info ${isEmailSent ? 'visible' : ''}`}>We recommend you maximise your chances of being heard
+                by reaching out to multiple candidates.</p>
             <p className={`info ${isTextCopied ? 'visible' : ''}`}>Email text copied to clipboard</p>
         </>
     );
