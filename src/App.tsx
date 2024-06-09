@@ -1,4 +1,4 @@
-import { useState, useRef, RefObject } from 'react';
+import { useState, useRef, useEffect, RefObject } from 'react';
 import './App.scss';
 
 function App() {
@@ -9,20 +9,25 @@ function App() {
     const [yourConst, setYourConst] = useState('');
     const [yourService, setYourService] = useState('');
     const [yourAddress, setYourAddress] = useState('');
-    const [isOptionalChecked, setIsOptionalChecked] = useState(false);
+    const [isOptionalServiceChecked, setIsOptionalServiceChecked] = useState(false);
+    const [isOptionalMeetingChecked, setIsOptionalMeetingChecked] = useState(false);
+    const [isEmailSent, setIsEmailSent] = useState(false);
+    const [isTextCopied, setIsTextCopied] = useState(false);
 
     const emailRef: RefObject<HTMLParagraphElement> = useRef<HTMLParagraphElement>(null);
+
+    const placeholder = <strong>{'{please fill in}'}</strong>;
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
     };
 
-    const optionalText = `I’d welcome a meeting to discuss how MPs can prioritise occupational therapy and improve our community’s wellbeing.
-              
-I’d be delighted to host you at our occupational therapy service ${yourService} to see for yourself how important these services are and the difference we make.
-`;
+    const optionalService = `I’d be delighted to host you at our occupational therapy service ${yourService || placeholder} to see for yourself how important these services are and the difference we make.
+    `;
+    const optionalMeeting = `I’d welcome a meeting to discuss how MPs can prioritise occupational therapy and improve our community’s wellbeing.
+    `;
 
-    const formattedText = optionalText.split('\n').map((line, index) => (
+    const formattedText = (text: string) => text.split('\n').map((line, index) => (
         <span key={index}>
             {line}
             <br />
@@ -36,9 +41,42 @@ I’d be delighted to host you at our occupational therapy service ${yourService
         return '';
     };
 
+    const copyToClipboard = () => {
+        if (emailRef.current) {
+            const range = document.createRange();
+            range.selectNode(emailRef.current);
+            window.getSelection()?.removeAllRanges(); // clear existing selections
+            window.getSelection()?.addRange(range);
+            document.execCommand('copy');
+            window.getSelection()?.removeAllRanges(); // clear selections again
+            setIsTextCopied(true);
+            setTimeout(() => setIsTextCopied(false), 3000); // Reset after 3 seconds
+        }
+    };
+
+    useEffect(() => {
+        const link = document.querySelector('.sendEmail');
+        if (link) {
+            link.addEventListener('click', () => {
+                setIsEmailSent(true);
+            });
+        }
+    }, [mpEmail, yourName, yourEmail, yourConst, yourService, yourAddress, isOptionalServiceChecked, isOptionalMeetingChecked]);
+
     return (
         <>
-            <p id='infotext'>Please fill out your information then press the send email button at the bottom of the page.</p>
+            <ul id='infotext'>
+                <li>Please fill out your information then press the send email button at the bottom of the
+                    page.
+                </li>
+                <li>The text will update automatically as you type.</li>
+                <li>Once you've pressed the send email button – an email should open up.  If this doesn't work, please copy and paste the text instead or press copy email text.
+                </li>
+                <li>The text can be selected by clicking anywhere inside the email copy.</li>
+                <li>We recommend you maximise your chances of being heard by reaching out to multiple candidates.</li>
+
+            </ul>
+
             <div className="inputs">
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
@@ -95,7 +133,7 @@ I’d be delighted to host you at our occupational therapy service ${yourService
                             onChange={(e) => setYourEmail(e.target.value)}
                         />
                     </div>
-                    {isOptionalChecked && (
+                    {isOptionalServiceChecked && (
                         <div className="input-group">
                             <label htmlFor="yourService">Your service:</label>
                             <input
@@ -106,23 +144,32 @@ I’d be delighted to host you at our occupational therapy service ${yourService
                             />
                         </div>
                     )}
+
                     <div className="input-group checkbox-group">
-                        <label htmlFor="optional">Do you want to invite your candidate to see your local occupational
-                            therapy service?</label>
+                        <label htmlFor="optionalService">Do you want to invite your candidate to see your local occupational
+                            therapy service?<br/> <strong>Please clear this with your service's comms department before
+                                inviting a candidate.</strong></label>
                         <input
                             type="checkbox"
-                            id="optional"
-                            checked={isOptionalChecked}
-                            onChange={(e) => setIsOptionalChecked(e.target.checked)}
+                            id="optionalService"
+                            checked={isOptionalServiceChecked}
+                            onChange={(e) => setIsOptionalServiceChecked(e.target.checked)}
                         />
-                        <span className="checkbox" onClick={() => setIsOptionalChecked(!isOptionalChecked)}></span>
                     </div>
-
+                    <div className="input-group checkbox-group">
+                        <label htmlFor="optionalMeeting">Do you want to invite your candidate to meet with you?</label>
+                        <input
+                            type="checkbox"
+                            id="optionalMeeting"
+                            checked={isOptionalMeetingChecked}
+                            onChange={(e) => setIsOptionalMeetingChecked(e.target.checked)}
+                        />
+                    </div>
                 </form>
             </div>
             <p className="email" ref={emailRef}>
-                Dear {mpName},<br/><br/>
-                I’m an occupational therapist in {yourConst} and I’m reaching out to highlight why
+                Dear {mpName || placeholder},<br/><br/>
+                I’m an occupational therapist in {yourConst || placeholder} and I’m reaching out to highlight why
                 occupational therapy is essential for our community. I'd be happy to meet with you in person to discuss
                 this further.<br/><br/>
                 Occupational therapy helps people to do the things they want and have to do. That could mean helping
@@ -135,21 +182,33 @@ I’d be delighted to host you at our occupational therapy service ${yourService
                 We're facing a shortage of occupational therapists, and without support, we risk failing to meet our
                 population's needs. We need to integrate occupational therapy into community settings, including in GP
                 surgeries and schools, to provide help at the right time.<br/><br/>
-                I have attached a copy of a briefing from the Royal College of Occupational Therapists with more
+                I have provided a link to a <a href="https://www.rcot.co.uk/news/rcot-general-election-briefing" target='_blank'>briefing from the Royal College of Occupational Therapists</a> with more
                 information and recommendations for the next government for you to consider.<br/><br/>
-                {isOptionalChecked && formattedText}
+                {isOptionalServiceChecked && formattedText(optionalService)}
+                {isOptionalMeetingChecked && formattedText(optionalMeeting)}
                 Thank you for taking the time to consider this. Your support for occupational therapy if you are elected
                 to parliament would make a significant difference.<br/><br/>
                 I look forward to hearing from you.<br/><br/>
                 Best wishes<br/><br/>
-                {yourName}<br/>
-                {yourAddress}<br/>
-                {yourEmail}<br/>
+                <strong>{yourName || placeholder}</strong><br/>
+                <strong>{yourAddress || placeholder}</strong><br/>
+                <strong>{yourEmail || placeholder}</strong><br/>
             </p>
-            <div className="fakeButton"><a
+            <a
+                className="fakeButton sendEmail"
                 href={`mailto:${mpEmail}?subject=Occupational%20therapy&body=${getEmailBody()}`}
-                className="email-button">Send email</a></div>
-
+                onClick={() => setIsEmailSent(true)}
+            >
+                Open email app
+            </a>
+            <button
+                className="fakeButton"
+                onClick={copyToClipboard}
+            >
+                Copy email text
+            </button>
+            <p className={`info ${isEmailSent ? 'visible' : ''}`}>We recommend you maximise your chances of being heard by reaching out to multiple candidates.</p><br/>
+            <p className={`info ${isTextCopied ? 'visible' : ''}`}>Email text copied to clipboard</p>
         </>
     );
 }
