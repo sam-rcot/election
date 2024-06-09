@@ -31,8 +31,28 @@
     display: inline-block;
 
     .sendEmail {
+      display: inline-block;
+      background-color: var(--color-teal);
+      width: fit-content;
+      height: 56px;
+      box-sizing: border-box;
+      border-radius: 50px;
+      padding: 18px 45px;
+      transition: transform 0.5s ease-in-out;
+      font-family: "Cera Pro", sans-serif;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1em;
+      color: var(--color-dark-teal);
+      border: none;
+      cursor: pointer;
+
       &:hover {
         transform: scale(1.05);
+      }
+
+      &:visited {
+        color: var(--color-dark-teal);
       }
     }
 
