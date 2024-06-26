@@ -178,49 +178,27 @@
     }
 
     .checkbox-group {
-      cursor: pointer;
       display: flex;
-      position: relative;
       flex-direction: row-reverse;
-      justify-content: space-between;
       align-items: start;
-      justify-items: self-end;
       width: 100%;
-
-      &:hover input ~ .checkmark {
-        background-color: rgba(0, 54, 67, 0.25);
-      }
-
-      input:checked ~ .checkmark {
-        background-color: $color-dark-teal;
-      }
+      margin-bottom: 10px;
+      justify-content: start;
 
       input {
-        position: absolute;
-        opacity: 0;
+        margin-right: 10px;
         cursor: pointer;
-        height: 0;
-        width: 0;
-      }
-
-      .checkmark {
-        user-select: none;
-        box-sizing: border-box;
-        font-size: 20px;
-        line-height: 27px;
-        height: 16px;
-        width: 16px;
-        background-color: #fff;
-        border: 1px solid $color-dark-teal;
-        margin: 3px;
       }
 
       label {
+        //flex-grow: 1;
         text-align: left;
-        flex-grow: 1;
-        margin-left: 10px;
-        width: 100%;
+        font-family: 'Nunito Sans', sans-serif;
+        color: var(--color-purple);
         cursor: pointer;
+        .labelText {
+          margin-right: 0.25em;
+        }
       }
     }
   }
@@ -248,15 +226,17 @@
       }
 
       .checkbox-group {
-        flex-direction: column;
+        //flex-direction: column-reverse;
         align-items: flex-start;
+
+        input {
+          margin-right: 1em;
+          margin-bottom: 5px;
+        }
 
         label {
           margin-left: 0;
-        }
 
-        input[type="checkbox"] {
-          margin-left: 0;
         }
       }
     }

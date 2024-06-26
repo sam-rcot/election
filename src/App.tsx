@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, RefObject, MouseEvent } from 'react';
+import {useState, useRef, useEffect, RefObject, MouseEvent} from 'react';
 import './App.scss';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
     const [isOptionalMeetingChecked, setIsOptionalMeetingChecked] = useState(false);
     const [isEmailSent, setIsEmailSent] = useState(false);
     const [isTextCopied, setIsTextCopied] = useState(false);
-    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const [tooltipPosition, setTooltipPosition] = useState({x: 0, y: 0});
     const [isEdge, setIsEdge] = useState(false);
 
     const emailRef: RefObject<HTMLParagraphElement> = useRef<HTMLParagraphElement>(null);
@@ -25,7 +25,7 @@ function App() {
     };
 
     const handleTooltipMouseMove = (event: MouseEvent) => {
-        setTooltipPosition({ x: event.clientX, y: event.clientY });
+        setTooltipPosition({x: event.clientX, y: event.clientY});
     };
 
     const optionalService = `I’d be delighted to host you at our occupational therapy service ${yourService || placeholder} to see for yourself how important these services are and the difference we make.
@@ -36,7 +36,7 @@ function App() {
     const formattedText = (text: string) => text.split('\n').map((line, index) => (
         <span key={index}>
             {line}
-            <br />
+            <br/>
         </span>
     ));
 
@@ -78,13 +78,9 @@ function App() {
     return (
         <>
             <ul id='infotext'>
-                <li>Please fill out your information then press the send email button at the bottom of the
-                    page.
-                </li>
+                <li>Please fill out your information then press the send email button at the bottom of the page.</li>
                 <li>The text will update automatically as you type.</li>
-                <li>Once you've pressed the send email button – an email should open up. If this doesn't work, please
-                    copy and paste the text instead or press copy email text.
-                </li>
+                <li>Once you've pressed the send email button – an email should open up. If this doesn't work, please copy and paste the text instead or press copy email text.</li>
                 <li>The text can be selected by clicking anywhere inside the email copy.</li>
                 <li>We recommend you maximise your chances of being heard by reaching out to multiple candidates.</li>
             </ul>
@@ -157,20 +153,20 @@ function App() {
                         </div>
                     )}
 
-                    <div className="input-group checkbox-group">
-                        <label htmlFor="optionalService">Do you want to invite your candidate to see your local
-                            occupational
-                            therapy service? <strong id="candidateWarning">Please clear this with your service's comms
-                                department before inviting a candidate.</strong></label>
+                    <div className="checkbox-group">
+                        <label htmlFor="optionalService">
+                            <span className="labelText">Do you want to invite your candidate to see your local occupational therapy service?</span>
+                            <strong id="candidateWarning">Please clear this with your service's comms department before inviting a candidate.</strong>
+                        </label>
                         <input
                             type="checkbox"
                             id="optionalService"
                             checked={isOptionalServiceChecked}
                             onChange={(e) => setIsOptionalServiceChecked(e.target.checked)}
                         />
-                        <span className="checkmark"></span>
                     </div>
-                    <div className="input-group checkbox-group">
+
+                    <div className="checkbox-group">
                         <label htmlFor="optionalMeeting">Do you want to invite your candidate to meet with you?</label>
                         <input
                             type="checkbox"
@@ -178,38 +174,24 @@ function App() {
                             checked={isOptionalMeetingChecked}
                             onChange={(e) => setIsOptionalMeetingChecked(e.target.checked)}
                         />
-                        <span className="checkmark"></span>
                     </div>
                 </form>
             </div>
             <p className="email" ref={emailRef}>
-                Dear {mpName || placeholder},<br /><br />
-                I’m an occupational therapist in {yourConst || placeholder} and I’m reaching out to highlight why
-                occupational therapy is essential for our community. I'd be happy to meet with you in person to discuss
-                this further.<br /><br />
-                Occupational therapy helps people to do the things they want and have to do. That could mean helping
-                overcome challenges learning at school, going to work, playing sport or simply doing the dishes.
-                Occupations are essential to living. They give our lives meaning, purpose and structure.<br /><br />
-                With the upcoming general election, I believe prioritising occupational therapy services will greatly
-                benefit residents across our constituency. Occupational therapy is a solution to many of the UK's health
-                and care challenges – it helps relieve pressure on acute services and helps people to get in to
-                work.<br /><br />
-                We're facing a shortage of occupational therapists, and without support, we risk failing to meet our
-                population's needs. We need to integrate occupational therapy into community settings, including in GP
-                surgeries and schools, to provide help at the right time.<br /><br />
-                I have provided a link to a <a href="https://www.rcot.co.uk/news/rcot-general-election-briefing"
-                                               target='_blank'>briefing from the Royal College of Occupational
-                Therapists</a> with more
-                information and recommendations for the next government for you to consider.<br /><br />
+                Dear {mpName || placeholder},<br/><br/>
+                I’m an occupational therapist in {yourConst || placeholder} and I’m reaching out to highlight why occupational therapy is essential for our community. I'd be happy to meet with you in person to discuss this further.<br/><br/>
+                Occupational therapy helps people to do the things they want and have to do. That could mean helping overcome challenges learning at school, going to work, playing sport or simply doing the dishes. Occupations are essential to living. They give our lives meaning, purpose and structure.<br/><br/>
+                With the upcoming general election, I believe prioritising occupational therapy services will greatly benefit residents across our constituency. Occupational therapy is a solution to many of the UK's health and care challenges – it helps relieve pressure on acute services and helps people to get in to work.<br/><br/>
+                We're facing a shortage of occupational therapists, and without support, we risk failing to meet our population's needs. We need to integrate occupational therapy into community settings, including in GP surgeries and schools, to provide help at the right time.<br/><br/>
+                I have provided a link to a <a href="https://www.rcot.co.uk/news/rcot-general-election-briefing" target='_blank'>briefing from the Royal College of Occupational Therapists</a> with more information and recommendations for the next government for you to consider.<br/><br/>
                 {isOptionalServiceChecked && formattedText(optionalService)}
                 {isOptionalMeetingChecked && formattedText(optionalMeeting)}
-                Thank you for taking the time to consider this. Your support for occupational therapy if you are elected
-                to parliament would make a significant difference.<br /><br />
-                I look forward to hearing from you.<br /><br />
-                Best wishes<br /><br />
-                <strong>{yourName || placeholder}</strong><br />
-                <strong>{yourAddress || placeholder}</strong><br />
-                <strong>{yourEmail || placeholder}</strong><br />
+                Thank you for taking the time to consider this. Your support for occupational therapy if you are elected to parliament would make a significant difference.<br/><br/>
+                I look forward to hearing from you.<br/><br/>
+                Best wishes<br/><br/>
+                <strong>{yourName || placeholder}</strong><br/>
+                <strong>{yourAddress || placeholder}</strong><br/>
+                <strong>{yourEmail || placeholder}</strong><br/>
             </p>
             <div className="buttonContainer">
                 <div className="tooltip" onMouseMove={handleTooltipMouseMove}>
@@ -222,7 +204,7 @@ function App() {
                     {isEdge && (
                         <span
                             className="tooltiptext"
-                            style={{ left: `${tooltipPosition.x}px`, top: `${tooltipPosition.y}px` }}
+                            style={{left: `${tooltipPosition.x}px`, top: `${tooltipPosition.y}px`}}
                         >
                             The open email app button won't work in Microsoft Edge browser unless you have a default email client selected. Please press copy email text instead.
                         </span>
@@ -237,8 +219,7 @@ function App() {
                 </button>
             </div>
 
-            <p className={`info ${isEmailSent ? 'visible' : ''}`}>We recommend you maximise your chances of being heard
-                by reaching out to multiple candidates.</p>
+            <p className={`info ${isEmailSent ? 'visible' : ''}`}>We recommend you maximise your chances of being heard by reaching out to multiple candidates.</p>
             <p className={`info ${isTextCopied ? 'visible' : ''}`}>Email text copied to clipboard</p>
         </>
     );
